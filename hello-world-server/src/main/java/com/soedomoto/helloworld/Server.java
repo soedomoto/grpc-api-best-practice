@@ -14,7 +14,7 @@ public class Server {
     private static Logger logger = LoggerFactory.getLogger(Server.class.getName());
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        io.grpc.Server server = ServerBuilder.forPort(50051)
+        io.grpc.Server server = ServerBuilder.forPort(50052)
                 .addService(new GreeterImpl())
                 .build();
 
@@ -37,7 +37,7 @@ public class Server {
         @Override
         public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
             HelloReply reply = HelloReply.newBuilder()
-                    .setMessage(String.format("Welcome {} ...", request.getName()))
+                    .setMessage(String.format("Welcome %s ...", request.getName()))
                     .build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();

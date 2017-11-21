@@ -10,35 +10,64 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class Client {
     private static Logger logger = LoggerFactory.getLogger(Client.class.getName());
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
+    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052)
                 .usePlaintext(true)
                 .build();
 
-        GreeterGrpc.GreeterStub stub = GreeterGrpc.newStub(channel);
+        // Input
+        HelloRequest req = HelloRequest.newBuilder()
+                .setName("world")
+                .build();
 
-        logger.info("Say: world");
-        HelloRequest request = HelloRequest.newBuilder().setName("world").build();
-        stub.sayHello(request, new StreamObserver<HelloReply>() {
-            @Override
-            public void onNext(HelloReply helloReply) {
-                logger.info(helloReply.getMessage());
-            }
+        // Blocking stub
+        long start = System.currentTimeMillis();
+        logger.info("Blocking stub");
+        String resp = GreeterGrpc.newBlockingStub(channel)
+                .sayHello(req)
+                .getMessage();
+        long end = System.currentTimeMillis();
 
-            @Override
-            public void onError(Throwable throwable) {
-                logger.error(throwable.getMessage(), throwable);
-            }
+        logger.info(String.format("%s in %d", resp, end-start));
 
-            @Override
-            public void onCompleted() {
-                logger.info("Complete");
-            }
-        });
+        // Future stub
+        start = System.currentTimeMillis();
+        logger.info("Future stub");
+        String resp2 = GreeterGrpc.newFutureStub(channel)
+                .sayHello(req)
+                .get()
+                .getMessage();
+        end = System.currentTimeMillis();
+
+        logger.info(String.format("%s in %d", resp2, end-start));
+
+        // Default stub
+        final long start2 = System.currentTimeMillis();
+        logger.info("Default stub");
+        GreeterGrpc.newStub(channel)
+                .sayHello(req, new StreamObserver<HelloReply>() {
+                    @Override
+                    public void onNext(HelloReply helloReply) {
+                        long end = System.currentTimeMillis();
+                        logger.info(String.format("%s in %d", helloReply.getMessage(), end-start2));
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        logger.error(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        long end = System.currentTimeMillis();
+                        logger.info(String.format("Completed in %d", end-start2));
+                    }
+                });
     }
 
 }
