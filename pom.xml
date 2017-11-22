@@ -16,6 +16,7 @@
         <slf4j-simple.version>1.6.4</slf4j-simple.version>
         <atomix.version>1.0.8</atomix.version>
         <orbitz-consul-client.version>0.17.0</orbitz-consul-client.version>
+        <curator.version>3.3.0</curator.version>
     </properties>
 
     <modules>
@@ -24,6 +25,7 @@
         <module>grpc-consul-resolver</module>
         <module>grpc-atomix-resolver</module>
         <module>atomix-replica</module>
+        <module>grpc-zookeeper-resolver</module>
     </modules>
 
     <build>

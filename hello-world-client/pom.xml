@@ -51,6 +51,11 @@
             <artifactId>grpc-consul-resolver</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.soedomoto</groupId>
+            <artifactId>grpc-zookeeper-resolver</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

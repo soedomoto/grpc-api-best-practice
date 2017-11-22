@@ -51,6 +51,13 @@
             <artifactId>consul-client</artifactId>
             <version>${orbitz-consul-client.version}</version>
         </dependency>
+
+        <!--Zookeeper Registry-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
