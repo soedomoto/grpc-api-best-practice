@@ -23,7 +23,7 @@ public class ServerWithAtomixRegistry {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         io.grpc.Server server = ServerBuilder.forPort(50052)
-                .addService(new Server.GreeterImpl())
+                .addService(new GreeterImpl())
                 .build();
 
         server.start();

@@ -19,7 +19,7 @@ public class ServerWithConsulRegistry {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         io.grpc.Server server = ServerBuilder.forPort(50053)
-                .addService(new Server.GreeterImpl())
+                .addService(new GreeterImpl())
                 .build();
 
         server.start();
