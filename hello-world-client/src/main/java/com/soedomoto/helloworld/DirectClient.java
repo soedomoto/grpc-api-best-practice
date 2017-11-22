@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public class Client {
-    private static Logger logger = LoggerFactory.getLogger(Client.class.getName());
+public class DirectClient {
+    private static Logger logger = LoggerFactory.getLogger(DirectClient.class.getName());
 
     public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
                 .usePlaintext(true)
                 .build();
 

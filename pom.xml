@@ -13,6 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <grpc.version>1.7.0</grpc.version>
         <slf4j-api.version>1.7.12</slf4j-api.version>
+        <slf4j-simple.version>1.6.4</slf4j-simple.version>
+        <atomix.version>1.0.8</atomix.version>
     </properties>
 
     <modules>
@@ -20,6 +22,7 @@
         <module>hello-world-client</module>
         <module>grpc-consul-resolver</module>
         <module>grpc-atomix-resolver</module>
+        <module>atomix-replica</module>
     </modules>
 
     <build>
