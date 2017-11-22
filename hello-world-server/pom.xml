@@ -44,6 +44,13 @@
             <artifactId>atomix-all</artifactId>
             <version>${atomix.version}</version>
         </dependency>
+
+        <!--Consul Registry-->
+        <dependency>
+            <groupId>com.orbitz.consul</groupId>
+            <artifactId>consul-client</artifactId>
+            <version>${orbitz-consul-client.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

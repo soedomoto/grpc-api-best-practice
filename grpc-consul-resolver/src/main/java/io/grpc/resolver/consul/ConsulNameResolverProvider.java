@@ -14,7 +14,7 @@ import java.util.Map;
 public class ConsulNameResolverProvider extends NameResolverProvider {
     private static final Logger logger = LoggerFactory.getLogger(ConsulNameResolverProvider.class);
 
-    private static final String SCHEME = "io/grpc/resolver/consul";
+    private static final String SCHEME = "consul";
     private static final String QUERY_PARAMETER_TAGS = "tag";
     private static final String QUERY_PARAMETER_DATACENTER = "dc";
 

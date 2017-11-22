@@ -40,13 +40,15 @@
 
         <!--Atomix Registry-->
         <dependency>
-            <groupId>io.atomix</groupId>
-            <artifactId>atomix-all</artifactId>
-            <version>${atomix.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.soedomoto</groupId>
             <artifactId>grpc-atomix-resolver</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--Consul Registry-->
+        <dependency>
+            <groupId>com.soedomoto</groupId>
+            <artifactId>grpc-consul-resolver</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

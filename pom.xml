@@ -15,6 +15,7 @@
         <slf4j-api.version>1.7.12</slf4j-api.version>
         <slf4j-simple.version>1.6.4</slf4j-simple.version>
         <atomix.version>1.0.8</atomix.version>
+        <orbitz-consul-client.version>0.17.0</orbitz-consul-client.version>
     </properties>
 
     <modules>

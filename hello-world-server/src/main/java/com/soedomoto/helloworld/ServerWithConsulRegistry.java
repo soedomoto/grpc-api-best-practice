@@ -1,10 +1,9 @@
 package com.soedomoto.helloworld;
 
-import io.atomix.Atomix;
-import io.atomix.AtomixClient;
-import io.atomix.catalyst.transport.Address;
-import io.atomix.catalyst.transport.netty.NettyTransport;
-import io.atomix.group.DistributedGroup;
+import com.orbitz.consul.AgentClient;
+import com.orbitz.consul.Consul;
+import com.orbitz.consul.model.agent.ImmutableRegistration;
+import com.orbitz.consul.model.agent.Registration;
 import io.grpc.ServerBuilder;
 import io.grpc.examples.helloworld.GreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
@@ -14,30 +13,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.Collections;
-import java.util.concurrent.ExecutionException;
 
-public class ServerWithAtomixRegistry {
+public class ServerWithConsulRegistry {
     private static Logger logger = LoggerFactory.getLogger(Server.class.getName());
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        io.grpc.Server server = ServerBuilder.forPort(50052)
+        io.grpc.Server server = ServerBuilder.forPort(50053)
                 .addService(new Server.GreeterImpl())
                 .build();
 
         server.start();
         logger.info("Server is started.");
 
-        try {
-            logger.info("Register to atomix");
-            AtomixClient client = AtomixClient.builder().withTransport(new NettyTransport()).build();
-            Atomix atomix = client.connect(new Address("localhost", 8701)).get();
-            DistributedGroup group = atomix.getGroup("service-greet").get();
-            group.join(Collections.singletonMap("address", new InetSocketAddress("localhost", 50052)));
-        } catch (ExecutionException e) {
-            logger.error(e.getMessage(), e);
-        }
+        logger.info("Register to consul");
+        Consul consul = Consul.builder().build();
+        AgentClient agentClient = consul.agentClient();
+
+        Registration registration = ImmutableRegistration.builder()
+                .name("service-greet")
+                .id("service-greet")
+                .address("localhost")
+                .port(50053)
+                .check(Registration.RegCheck.tcp(String.format("%s:%d", "localhost", 50053), 5))
+                .build();
+
+        agentClient.register(registration);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
